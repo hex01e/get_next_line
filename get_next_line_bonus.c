@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: houmanso <houmanso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/11 19:58:29 by houmanso          #+#    #+#             */
-/*   Updated: 2022/11/17 23:53:50 by houmanso         ###   ########.fr       */
+/*   Created: 2022/11/17 18:10:43 by houmanso          #+#    #+#             */
+/*   Updated: 2022/11/18 00:00:18 by houmanso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 static int	is_a_newline(char *str)
 {
@@ -92,16 +92,16 @@ static char	*next_line(int fd, char **str, char **backup)
 
 char	*get_next_line(int fd)
 {
-	static char	*backup;
+	static char	*backup[OPEN_MAX];
 	char		*str;
 	char		*line;
 
 	str = NULL;
 	line = NULL;
-	if (backup && read(fd, NULL, 0) == -1)
-		return (free(backup), backup = NULL, NULL);
+	if (backup[fd] && read(fd, NULL, 0) == -1)
+		return (free(backup[fd]), backup[fd] = NULL, NULL);
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, NULL, 0) == -1)
 		return (0);
-	line = next_line(fd, &str, &backup);
+	line = next_line(fd, &str, &backup[fd]);
 	return (line);
 }
