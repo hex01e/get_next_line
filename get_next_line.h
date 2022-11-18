@@ -6,11 +6,12 @@
 /*   By: houmanso <houmanso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 20:20:25 by houmanso          #+#    #+#             */
-/*   Updated: 2022/11/18 00:14:59 by houmanso         ###   ########.fr       */
+/*   Updated: 2022/11/18 01:05:50 by houmanso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
