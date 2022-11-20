@@ -6,7 +6,7 @@
 /*   By: houmanso <houmanso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 19:58:29 by houmanso          #+#    #+#             */
-/*   Updated: 2022/11/17 23:53:50 by houmanso         ###   ########.fr       */
+/*   Updated: 2022/11/20 16:53:36 by houmanso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,17 +35,17 @@ static char	*get_the_line(char **str, char **backup, int i)
 	j = 0;
 	line = malloc((i + 1) * sizeof(char));
 	if (!line)
-		return (free(*str), free(*backup), NULL);
+		return (free(*str), free(*backup), *backup = NULL, NULL);
 	while (k < i)
 	{
 		line[k] = (*str)[k];
 		k++;
 	}
 	line[k] = '\0';
-	if ((*str)[k])
+	if (*str && (*str)[k])
 	{
 		*backup = malloc((ft_strlen(&(*str)[k]) + 1) * sizeof(char));
-		if (!backup[0])
+		if (!*backup)
 			return (free(*str), free (line), NULL);
 		while ((*str)[k])
 			(*backup)[j++] = (*str)[k++];
@@ -98,10 +98,12 @@ char	*get_next_line(int fd)
 
 	str = NULL;
 	line = NULL;
-	if (backup && read(fd, NULL, 0) == -1)
-		return (free(backup), backup = NULL, NULL);
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, NULL, 0) == -1)
-		return (0);
+	{
+		if (backup)
+			return (free(backup), backup = NULL, NULL);
+		return (NULL);
+	}
 	line = next_line(fd, &str, &backup);
 	return (line);
 }
